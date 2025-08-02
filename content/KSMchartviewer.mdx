@@ -1,0 +1,121 @@
+---
+title: "KSM Chart Viewer"
+description: "An online chart viewer for K-Shoot Mania. "
+date: "2025-08-01"
+tags: {
+  'Reverse Engineer': true,
+  'JavaScript': true,
+  'Data Visualization': true
+}
+image: "/images/KSMchartviewer/coverpage.png"
+view: "https://ksmindex.vercel.app/"
+github: false
+---
+<br/>
+# KSM Index
+KSM or [K-Shoot Mania](https://www.kshootmania.com/en/) is a simulator for the game Sound Voltex. It allows users to create charts that can than be played on this simulator. These charts can then be uploaded for other users to play. 
+
+<Video src="/images/KSMchartviewer/ksmexample.mp4" description="Example of a chart on KSM" className="w-max"/>
+
+Each chart can be made in the K-Shoot editor and charts have the `.ksh` file extension. The Editor allows user to create and edit their own charts. It also allows a way to view the chart from a top down view.
+
+<Image src="/images/KSMchartviewer/exampleChart.png" width={1000} height={1000} alt="" description="Example of the chart above in the editor"  />
+
+The goal of this website was to be able to upload any chart to it and get a top down view like the one above generated on the website for you to see. This would be an easy way to see charts without having to download and use the editor which can be clunky.
+<br/>
+# .ksh Files
+The first step was figuring out and understanding `.ksh` files. `.ksh` files are essentially just text that any text editor can read. Upon opening a `.ksh` file, you will be greeted with something like this.
+```jsx
+title=1001 -ESCAPE-
+artist=SOUND HOLIC feat. Nana Takahashi
+effect=MASON -ESCAPE-
+jacket=cannonballers.jpg
+illustrator=
+difficulty=infinite
+level=19
+t=147
+m=music.mp3
+mvol=75
+o=0
+bg=cyber
+layer=snow;1100;1
+po=0
+plength=15000
+pfiltergain=50
+filtertype=peak
+chokkakuautovol=0
+chokkakuvol=50
+ver=171
+--
+beat=4/4
+0000|00|--
+--
+0000|20|--
+0100|00|--
+0010|00|--
+0001|00|--
+0000|20|--
+0010|00|--
+0100|00|--
+1000|00|--
+0000|02|--
+0100|00|--
+0010|00|--
+1000|00|--
+0001|00|--
+0000|02|--
+0100|00|--
+0010|00|--
+```
+<br/>
+
+This is what the first part chart I've been showcasing for the examples looks like. There is a lot of information here, so lets break it down.
+<br/>
+# Syntax of .ksh
+Before discussing the interesting stuff, I'd like to breakdown how `.ksh` are formatted in general. Every `.ksh` is broken off into sections. This is shown by a line that only has `--`. When there is a new line with `--`, that means that you are at the end of the old section and entering a new section. Excluding the first section, all sections can be different lengths and as long or short as it needs to be (to a limit that most likely wont be reached). 
+
+<br/>
+In every `.ksh` the first section is always metadata about the chart.
+
+<br/>
+# Metadata
+For right now we will look at this section of the data
+```jsx
+title=1001 -ESCAPE-
+artist=SOUND HOLIC feat. Nana Takahashi
+effect=MASON -ESCAPE-
+jacket=cannonballers.jpg
+illustrator=
+difficulty=infinite
+level=19
+t=147
+m=music.mp3
+mvol=75
+o=0
+bg=cyber
+layer=snow;1100;1
+po=0
+plength=15000
+pfiltergain=50
+filtertype=peak
+chokkakuautovol=0
+chokkakuvol=50
+ver=171
+```
+
+Most of this is all metadata that is set in the editor for each chart. While most are self-explanatory, there are some ones that aren't as easy to understand. Messing with the data and figuring out what it adjusted in the editor allowed me to figure out what exactly each one is doing.
+
+<br/>
+- `t` = The starting BPM of the song. This does not account for changes in BPM.
+- `o` = Millisecond offset of the song. 
+- `layer` = Foreground layer, not background
+- `po` = Sample offset. This is not the offset of the song, rather just offset of the sample that plays when you hover the song.
+- `plength` = Sample length
+- `ver` = Version of the editor/KSM that this chart was made for or made on.
+
+<br/>
+It's important to note that you can leave metadata blank and it be ok. For example, this chart does not have a illustrator attached but still is fine.
+<br/>
+For the purposes of displaying the chart, nothing here really matters. Only slightly important thing is the `t` or the starting BPM of the chart.
+
+# Chart

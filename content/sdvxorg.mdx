@@ -1,18 +1,66 @@
 ---
 title: "sdvx.org"
-description: "A wiki for the rhythm game Sound Voltex."
-date: "2025-04-09"
+description: "An open-source wiki for the rhythm game Sound Voltex. Made with Nextra, Next.js and TailwindCSS. Hosted on Vercel."
+date: "2025-08-01"
 tags: {
   'JavaScript': true,
   'Next.js': true,
-  'TailwindCSS': true,
+  'TailwindCSS': true
 }
-image: "/images/test.png"
+image: "/images/sdvxorg/coverpage.png"
 view: "https://sdvx.org"
+github: true
+githubLink: "https://github.com/zzunja/sdvxwiki"
 ---
-# sdvx.org
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis malesuada nisl ac eleifend porta. Nunc ac est lacus. Fusce auctor pulvinar orci, et tincidunt nulla. Cras interdum, massa ut consequat porta, turpis dui auctor arcu, volutpat tincidunt felis ex sit amet magna. Vivamus vel ex imperdiet, scelerisque diam et, porta lacus. Maecenas purus neque, gravida in risus vel, egestas dictum lectus. Curabitur et interdum mauris. Nulla libero dui, ultrices eu faucibus id, congue et leo. Nam mollis libero vel viverra imperdiet. Ut dignissim risus quis ex dignissim hendrerit. Phasellus elementum massa eu ex venenatis, sed pulvinar est viverra.
+# sdvx.org
+This is a wiki made for the rhythm game Sound Voltex. It is open-source on [GitHub](https://github.com/zzunja/sdvxwiki) that I still work on and maintain. It was made mainly with Nextra and TailwindCSS. Similar to this website, it is a MDX reader that is easy to build upon and add to. This means every page is essentially an MDX, making it easy for people to add or edit things as needed. 
 
 <br/>
-Praesent porta vehicula tincidunt. Aenean elit risus, euismod in cursus non, vestibulum non nisl. Vestibulum consectetur tortor vitae sagittis faucibus. Aenean vel pulvinar justo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam elementum, lectus a posuere scelerisque, augue mauris tempor nisl, non venenatis velit ligula at leo. Nulla consequat, nunc sed aliquam elementum, erat dui ultricies justo, nec commodo nisi erat ut ante. Mauris condimentum eget nisi et varius. Vestibulum accumsan condimentum facilisis. Morbi at dui non tortor gravida aliquet ut eget mi. 
+It is still actively used and the main source for english information on Sound Voltex. 
+<br/>
+# Why?
+SDVX, or Sound Voltex is a Japanese game that is mainly play in Asian regions. Because of this, a lot of information on this is game is locked away behind wikis not in english or scattered out around the internet, often very old and outdated. This makes getting into the game very difficult and frustrating. I wanted to try and help alleviate this frustration by making a website that contains all important information about the game in one spot all in english. 
+<br/>
+# Starting and Inspiration
+This website is heavily inspired by [iidx.org](https://iidx.org/), a wiki made for Beatmania. Beatmania or IIDX is another Japanese game that is popular in Japan. (It's actually made by the same company that made SDVX!). iidx.org is a popular wiki amoung the community and is often used and referenced for helping new players figure out the game. Seeing this, I wanted to make something similar for SDVX.
+
+<Image
+src="/images/sdvxorg/iidxorg.png" 
+width={1000}
+height={1000}
+alt=""
+description="iidx.org website"
+/>
+<br/>
+
+
+My friend told me about [Nextra](https://nextra.site/), which is a MDX renderer that has a built in docs theme. When I first found it, Nextra was on version 3. Originally, Nextra didn't have a bunch of features and the documentation was extremely lackluster in some locations. Despite this, I decided to go with Nextra as I wanted a simple and clear look which is what it offered. So on 2024-11-06 I create the GitHub and made my first commit. 
+<br/>
+# Development
+Setup of Nextra was easy and quick. While I wouldn't say I'm a master with Next.js and React, it wasn't my first website I'd ever made. The main problems came when upgrading Nextra to v4 and getting TailwindCSS to work with Nextra.
+<br/>
+Originally when I made the project, Nextra was on v3. By the time the website came out it updated to v4. In version 4, Next.js [App Router](https://nextjs.org/docs/app) was now exclusivly used. This means I had to convert my website to use the App Router from the Pages Router. This turned out to be a lot more difficult than expected, and mainly because of my inexperience with Next.js.
+<br/>
+While Nextra gave instruction on how to upgrade, I found that it didn't seem to work with my setup and was causing a lot of errors. This caused me to just have to fully redo my Nextra instalation and move my already made MDX files. After this it was trying to setup TailwindCSS. TailwindCSS was not so bad for a setup but I was stuck on my classes just not applying. It didn't help that this was around the time TailwindCSS v4 just came out so a lot of information on it was still a bit out of date. I kept trying to do stuff for v3 of TailwindCSS which in turn did nothing.
+<br/>
+The thing that fixed it was just remember to import global.css to my main layout.tsx page...
+
+```tsx
+  import { Head } from 'nextra/components'
+  import { getPageMap } from 'nextra/page-map'
+  import 'nextra-theme-docs/style.css'
+  import './globals.css' // remember to add this
+```
+
+Some of the biggest headaches are the simplest things.
+
+<br/>
+# Opening sdvx.org
+Eventually, I got sdvx.org to the point where I felt like it could be released. While no where close to the point where it is now, it contained enough information where it wouldn't be useless. To host sdvx.org, I used [Vercel](https://vercel.com). Since I was already coding it in Next.js and it's a rather lightweight site it was easy. While I have hosted other sites before, this was my first time buying and setting up a domain name. I used Vercel to buy the domain name sdvx.org and set it up.
+
+<br/>
+# Conclusion
+Currently, I am still maintaining sdvx.org and plan to add more stuff to it eventually, but as of now I am pretty content with the spot it is in. Currently, it sits at around 2000~ google clicks and is used a good amount in the community. I hope that eventually, it will spread farther and people who are new to the game will be able to find it easily. 
+
+<br/>
