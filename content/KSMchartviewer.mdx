@@ -3,28 +3,28 @@ title: "KSM Chart Viewer"
 description: "An online chart viewer for K-Shoot Mania. "
 date: "2025-08-01"
 tags: {
-  'Reverse Engineer': true,
-  'JavaScript': true,
-  'Data Visualization': true
+ 'Reverse Engineer': true,
+ 'JavaScript': true,
+ 'Data Visualization': true
 }
 image: "/images/KSMchartviewer/coverpage.png"
 view: "https://ksmindex.vercel.app/"
 github: false
 ---
-<br/>
+
 # KSM Index
-KSM or [K-Shoot Mania](https://www.kshootmania.com/en/) is a simulator for the game Sound Voltex. It allows users to create charts that can than be played on this simulator. These charts can then be uploaded for other users to play. 
+KSM, also known as [K-Shoot Mania](https://www.kshootmania.com/en/), is a simulator for the game Sound Voltex. It allows users to create charts that can then be played on this simulator. These charts can then be uploaded for other users to play. 
 
 <Video src="/images/KSMchartviewer/ksmexample.mp4" description="Example of a chart on KSM" className="w-max"/>
 
-Each chart can be made in the K-Shoot editor and charts have the `.ksh` file extension. The Editor allows user to create and edit their own charts. It also allows a way to view the chart from a top down view.
+Each chart can be made in the K-Shoot editor, and charts have the `.ksh` file extension. The Editor allows users to create and edit their charts. It also allows for a top-down view of the chart.
 
-<Image src="/images/KSMchartviewer/exampleChart.png" width={1000} height={1000} alt="" description="Example of the chart above in the editor"  />
+<Image src="/images/KSMchartviewer/exampleChart.png" width={1000} height={1000} alt="" description="Example of the chart above in the editor"  />
 
-The goal of this website was to be able to upload any chart to it and get a top down view like the one above generated on the website for you to see. This would be an easy way to see charts without having to download and use the editor which can be clunky.
-<br/>
+The goal of this website was to be able to upload any chart to it and get a top-down view like the one above generated on the website for you to see. This would be an easy way to see charts without having to download and use the editor, which can be clunky.
+
 # .ksh Files
-The first step was figuring out and understanding `.ksh` files. `.ksh` files are essentially just text that any text editor can read. Upon opening a `.ksh` file, you will be greeted with something like this.
+The first step was to figure out and understand `.ksh` files. `.ksh` files are essentially just text that any text editor can read. Upon opening a `.ksh` file, you will be greeted with something like this.
 ```jsx
 title=1001 -ESCAPE-
 artist=SOUND HOLIC feat. Nana Takahashi
@@ -69,17 +69,17 @@ beat=4/4
 ```
 <br/>
 
-This is what the first part chart I've been showcasing for the examples looks like. There is a lot of information here, so lets break it down.
-<br/>
+This is what the first part of the chart I've been showcasing for the examples looks like. There is a lot of information here, so let's break it down.
+
 # Syntax of .ksh
-Before discussing the interesting stuff, I'd like to breakdown how `.ksh` are formatted in general. Every `.ksh` is broken off into sections. This is shown by a line that only has `--`. When there is a new line with `--`, that means that you are at the end of the old section and entering a new section. Excluding the first section, all sections can be different lengths and as long or short as it needs to be (to a limit that most likely wont be reached). 
+Before discussing the interesting stuff, I'd like to break down how `.ksh` is formatted in general. Every `.ksh` is broken off into sections. This is shown by a line that only has `--`. When there is a new line with `--`, that means that you are at the end of the old section and entering a new section. Excluding the first section, all sections can be different lengths and as long or short as they need to be (to a limit that most likely won't be reached). 
 
 <br/>
-In every `.ksh` the first section is always metadata about the chart.
+In every `.ksh` file, the first section is always metadata about the chart.
 
-<br/>
+
 # Metadata
-For right now we will look at this section of the data
+For right now, we will look at this section of the data
 ```jsx
 title=1001 -ESCAPE-
 artist=SOUND HOLIC feat. Nana Takahashi
@@ -103,19 +103,243 @@ chokkakuvol=50
 ver=171
 ```
 
-Most of this is all metadata that is set in the editor for each chart. While most are self-explanatory, there are some ones that aren't as easy to understand. Messing with the data and figuring out what it adjusted in the editor allowed me to figure out what exactly each one is doing.
+Most of this is all metadata that is set in the editor for each chart. While most are self-explanatory, some ones aren't as easy to understand. Messing with the data and figuring out what it adjusted in the editor allowed me to figure out what exactly each one is doing.
 
 <br/>
 - `t` = The starting BPM of the song. This does not account for changes in BPM.
 - `o` = Millisecond offset of the song. 
 - `layer` = Foreground layer, not background
-- `po` = Sample offset. This is not the offset of the song, rather just offset of the sample that plays when you hover the song.
+- `po` = Sample offset. This is not the offset of the song, but rather just the offset of the sample that plays when you hover over the song.
 - `plength` = Sample length
 - `ver` = Version of the editor/KSM that this chart was made for or made on.
 
 <br/>
-It's important to note that you can leave metadata blank and it be ok. For example, this chart does not have a illustrator attached but still is fine.
+It's important to note that you can leave metadata blank, and it will be ok. For example, this chart does not have an illustrator attached, but is still fine.
 <br/>
-For the purposes of displaying the chart, nothing here really matters. Only slightly important thing is the `t` or the starting BPM of the chart.
-
+For the purposes of displaying the chart, nothing here really matters. The only slightly important thing is the `t` or the starting BPM of the chart.
 # Chart
+The next section of the file is where the chart starts. From here on out, most of the file will look the same. Let's start with the first section.
+
+```jsx
+--
+beat=4/4
+0000|00|--
+--
+```
+
+Here, we have two lines: `beat=4/4` and `0000|00|--|`. The first line is simple; it defines the current time signature. If the time signature were to change, there would be a `beat=` to signify this change. This goes the same with `t=` (BPM) as well. If there is a BPM change, it will be signified in the file like this. You can change the BPM and time signature as much as you want.
+<br/>
+
+The next time is what's placed in the chart. Here, each line has 3 sections divided by `|`. The first section, or the 4 numbers, represent the BT/White notes. The next section represents the FX/Orange notes. This only has 2 numbers. The last section is the laser. For now, let's look at the first 2 since they are very similar.
+<br/>
+```jsx
+0000|00
+```
+
+A note is represented by each number. Each number can either be a 0 or a 1.
+- 0 represents nothing. Meaning there are no notes.
+- 1 represents a bt note. Meaning there is a bt note.
+- 2 represents a bt hold note. Meaning there is a bt hold.
+<br/>
+FX are slightly different
+- 0 represents nothing. Meaning there are no notes.
+- 1 represents a fx **hold**. Meaning there is a fx **hold**.
+- 2 represents a fx **note**. Meaning there is a fx **note**.
+<br/>
+So, for example, if a line looked like `1000|00`, there would be one note in the first lane. This is the same thing for FX as well, except there are only 2 positions a FX note can be in. Here are some more examples.
+
+<Image src="/images/KSMchartviewer/examples.png" width={1000} height={1000} alt=""/>
+
+1. 1 = `1000|00`
+2. 2 = `0010|00`
+3. 3 = `0101|00`
+4. 4 = `0000|20`
+5. 5 = `1100|02`
+
+# Laser
+Before explaining lasers, I'd like to explain more about how the KSM editor works. Lasers have a set point where you can put them in the KSM editor. Meaning, you can't just place a laser anywhere you want. Each laser has to start or end at one of these "points". These points go from left to right and are represented by a character in the `.ksh` file. Starting at `0`, which is the farthest left point, it goes 0-9, then A-Z uppercase, and then a-o lowercase, with `o` being the farthest right.
+
+<br/>
+You can think of this as a long number line with `0` being the last number on the number line or farthest left, and `o` being the last number on the line or the farthest right.
+
+<br/>
+There are 2 characters that represent the left/blue laser and the right/red laser respectively in a line. For now, let's look at this.
+
+```jsx
+0000|00|--
+0000|00|--
+0000|00|0-
+0000|00|:-
+0000|00|:-
+0000|00|:-
+0000|00|:-
+0000|00|:-
+0000|00|o-
+0000|00|--
+0000|00|--
+0000|00|--
+0000|00|-o
+0000|00|-:
+0000|00|-:
+0000|00|-:
+0000|00|-:
+0000|00|-:
+0000|00|-P
+0000|00|-:
+0000|00|-:
+0000|00|-:
+0000|00|-:
+0000|00|-:
+0000|00|-o
+0000|00|--
+--
+```
+
+I have removed the section indicators (`--`) to make it a bit easier to read. 
+<br/>
+There are 2 characters we haven't gone over yet when it comes to lasers. These are the `-` and `:`.
+- `-` represents that there is no laser currently. 
+- `:` represents that there is a laser.
+
+<br/>
+
+Let's look at the left laser for now. To start a laser, there has to be a starting point. For this example, this is `0`. This means that the laser starts at the farthest left point. The next line is a `:` which means the laser is continuing/exist. This continues until we reach an `o`. This is the farthest right point, meaning the laser is now at the farthest right. The next line shows a `-`, meaning the laser has ended. All in all, that means this laser goes `0` or the farthest left to the farthest right or `o` in a straight line.
+
+<br/>
+
+Let's look at the right laser now. This starts at `o` or the farthest right and then goes `P`. While we don't know exactly where this is, we can assume this is around the middle. This means the laser makes a straight line to the middle. The next line is a `:` meaning that this laser is continuing and not ending. A couple more lines later, we get an `o` meaning the laser has returned to the far right. The line after this is a `-`, meaning the laser has ended. All in all, we can assume this laser starts on the right, heads to around the middle, and then heads back to the right.
+
+<br/>
+Here is what the above example looks like in the editor.
+<Image src="/images/KSMchartviewer/example2.png" width={150} height={300} alt=""/>
+
+# Measures
+Let's talk more about sections and the format of `.ksh`. Each `.ksh` file is divided into sections, divided by `--`. You may have noticed this in the original example. For now, let's look at this.
+```jsx
+--
+1000|00|--
+0100|00|--
+0010|00|--
+0001|00|--
+--
+1000|00|--
+0100|00|--
+0010|00|--
+0001|00|--
+1000|00|--
+0100|00|--
+0010|00|--
+0001|00|--
+--
+```
+
+As you can see, this part has 2 sections. One with 4 lines and one with 8 lines. These sections represent measures. So, each section is a measure. In this example, I am showing 2 measures of this chart. We are also going to assume that this is using a standard 4/4 time signature, meaning every measure has 4 beats.
+
+<br/>
+Each measure can have a different number of lines. How many lines it is is determined by whatever measure is the highest `x`-th note. For example, let's look at the first measure. There are 4 lines. This means that the highest `x`-th notes that are used in this measure are 4th notes (i.e, a note can be placed on the beat). Here, using the knowledge that we know, we can know that this measure has 4 notes in a staircase pattern, with each note being at the beginning of every beat.
+<br/>
+The next section has 8 lines instead of 4. This means that the highest `x`-th note is 8th notes (i.e, a note can be placed on the beat and halfway through the beat). Here, we see that there is also a staircase, but it is a bit faster since they are being played as 8th notes. 
+<br/>
+Here is what the above example looks like in the editor
+<Image src="/images/KSMchartviewer/example3.png" width={150} height={100} alt=""/>
+
+In the editor, each measure is separated by the yellow line. So, the bottom half is the 4-line part, and the top half is the 8-line part.
+
+# Slams and other small things
+There are a couple of other things to note. First slams. In KSM, a slam is a laser that goes from one point to the other as fast or faster than a 32nd of a second. So, for example:
+```jsx
+...
+0000|00|--
+0000|00|0-
+0000|00|o-
+0000|00|--
+...
+```
+
+Let's assume that this measure had 32 lines, meaning that it was in 32nd notes. This laser would go from the left side to the right side in a 32nd. This would become a slam as a laser that moves from one point to another as fast or faster than a 32nd turns into a slam.
+
+<Image src="/images/KSMchartviewer/example4.png" width={100} height={100} description="Above example in editor" alt=""/>
+
+<br/>
+
+Lasers can also be extended beyond their normal range. Normally, the farthest left it can be is right next to the lane. But, this can be extended much farther. Note that there aren't more points, just that the points are now extended and farther apart.
+
+```jsx
+--
+0000|00|0-
+0000|00|:-
+0000|00|:-
+0000|00|o-
+--
+laserrange_r=2x
+0000|00|-0
+0000|00|-:
+0000|00|-:
+0000|00|-o
+--
+```
+Let's look at this. The first measure is a normal blue laser using a normal range. The next measure has a line `laserrange_r=2x`. This means that the laser range for the right laser is extended. Even though these lasers start and end with the same movement, the right one will be longer. It might be hard to visualize this, so here is what this looks like.
+
+<Image src="/images/KSMchartviewer/example5.png" width={150} height={100} alt=""/>
+
+The `laserrange` only applies for as long as the laser goes. Once the laser ends, the range will be back to normal. Also, changing 2x to 4x or something else doesn't increase the range further.
+
+# Rendering the chart
+
+For rendering the chart, I first split the chart into an array. I split it into the sections that were talked about earlier. So, at each `--`, there is a split. Because of this, the first object in the array is always the metadata. This makes it easy to pull the metadata, as it will always be the first object. 
+
+<br/>
+<Image src="/images/KSMchartviewer/array.png" width={500} height={1000} alt="" description="Example of what the array looks like."/>
+
+If I were to do this again, I don't think I would separate it into an array and keep it all together. At the very least, keep all the lasers in one object, as it can get tricky messing with lasers that go through multiple measures. 
+
+
+# Rendering the Notes
+For rendering the notes, I first checked what the `n`-th note is for that measure. Depending on what it is, it will determine where the notes are placed. So, for example, if the measure was 4th notes, every note would be placed on the line of the beat. After learning what `n`-th note it is, it's time to draw the note.
+
+<br/>
+
+The way I went about it was using a nested for loop to go through each line, then each character. On every new measure, start the drawing position at the bottom of the measure. If the line has a `1` for BT or `2` for FX, that means to place a note there. If there is nothing, then skip the line and move the drawing position up based on the `n`-th note. Meaning, if it is 4th notes, move it up to the next beat vs 8th notes where it would only move up half a beat.
+```jsx
+//for each measure
+for(let p = 1; p < measure.length; p++){
+  //start X back at lane 1
+  PosOffsetX = 50
+  TotalXOffset = 0
+  ...
+  btPosY = currentMeasureY
+  //for each line
+  for(let i = 0; i < notes.length; i++){
+    ...
+    btPosX = PosOffsetX
+    //for each character
+    for(let x = 0; x < btNotes.length; x++){
+      if(btNotes[x] == 1){
+      context.drawImage(note, btPosX, btPosY, 14, 3); 
+      }
+      btPosX += 16;
+    }
+    btPosY = (btPosY - noteTime);
+  }
+}
+```
+<br/>
+This is a snippet of the code, which is slightly edited. There are a couple of magic numbers here, but most of them are just small offset stuff about the exact positioning of everything (although I wish I had named them). Essentially, every measure I first set the X offset to 0, meaning the farthest left lane or lane 1. I set the Y position based on the currentMeasureY. Then, go through each character and draw a note if the character equals 1. After it draws the note or not, it moves to the next lane, which is around `16` pixels. After this whole thing, I then adjust the Y position by `noteTime`, which is calculated by the `n`-th note.
+
+<br/>
+
+For holds, I would get the first position when it starts and store it. I would then wait till the hold ends. Once I find out where it ends, I would draw a box for how long the hold lasted.
+<br/>
+A problem with this comes when holds go through different measures. Since I reset this for loop every measure, this would mean the FX-Holds would fail in this situation. This is part of the reason why I would recommend not splitting it. For this, the solution I used was if it was at the end of the for loop, and it still didn't have an end position, just draw the hold for until the end of the measure.
+
+# Lasers
+Lasers are very complicated, as a lot of edge cases exist, but I will go over the main way I rendered lasers.
+<br/>
+First, I figure out if the measure is over a 32nd. If it's over a 32nd, this means lasers can be slams. If it is over 32, I set the slams variable to true and continue. Next, similar to note holds, I go through each line till I find the starting laser position. I mark this down in a variable and continue through each line. Once the line reaches another point, this means the laser is changing directions or ending. Before drawing the laser, I check how many lines it has been since I saw the first variable. If it equals or is less than a 32nd gap, then I draw a slam for the laser. Otherwise, I draw a normal laser between the 2 points. 
+<br/>
+
+The main problem is lasers that go through measures. I solved this by creating an array that combines all the measures. Using this, I find the original point in this array by using the index and then finding where it ends. Then, I draw the laser but cut it off when the measure ends. I store the cutoff laser position and continue the laser in the next measure from that. This is a very inefficient way to do this and stems from how I set it up originally. If I were to do this again, I would have originally stored everything in one array and drawn it out. Then, I would cut up the image into measures and form it all together.
+
+# Conclusion
+All in all, this project was a fun one to work on. Learning how the editor works with files and how it renders them was interesting. It was satisfying creating a full chart image from what was just a bunch of characters in a file. This project was also a good learning experience on future-proofing code and why it's important to plan. I would like to eventually come back to this and fully put together a well-made KSM chart viewer. 
+

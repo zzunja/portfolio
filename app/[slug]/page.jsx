@@ -14,14 +14,19 @@ import ZoomableImage from '@/component/zoomimage';
 
 
 export async function generateStaticParams() {
-  const files = fs.readdirSync(path.join(process.cwd(), 'content'));
+  const files = fs.readdirSync(path.join(process.cwd(), 'content'))
   return files.map(file => ({
     slug: file.replace(/\.mdx$/, ''),
   }));
 }
 
 const componentsData = {
-  h1: (props) => <h1 className="text-4xl font-bold mt-2 mb-2" {...props} />,
+  h1: (props) => {return(
+    <>
+      <br/>
+      <h1 className="text-4xl font-bold mt-2 mb-2" {...props} />
+    </>
+  )},
   a: (props) => <a className="text-blue-400 underline hover:text-blue-600" target="_blank"  {...props} />,
   Image: (props) => {
     const { src, alt, description, width, height } = props
@@ -47,7 +52,7 @@ const componentsData = {
         </video>
         {description && <em>{description}</em>}
       </div>
-    );
+    )
   },
   li: (props) => <li className="ml-6 list-disc leading-relaxed" {...props} />,
   code: ({ children, ...props }) => (
