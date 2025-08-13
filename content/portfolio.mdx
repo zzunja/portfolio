@@ -3,9 +3,9 @@ title: "Portfolio"
 description: "A website to showcase all my projects."
 date: "2025-08-01"
 tags: {
-  'JavaScript': true,
-  'Next.js': true,
-  'TailwindCSS': true,
+ 'JavaScript': true,
+ 'Next.js': true,
+ 'TailwindCSS': true,
 }
 image: "/images/test2.png"
 github: true
@@ -14,19 +14,19 @@ githubLink: "https://github.com/zzunja/portfolio"
 
 # Portfolio
 
-Around Sophomore year of my college semester, I realized that I had done a lot of projects but it was all scattered about across many github repos and random files on my computer. At the same time, my friend kept talking about him making a Portfolio website and how I need to do the same. At the time, I didn't really think about it but that summer break I had a lot of free time on my hand and decided to make this website. 
+Around Sophomore year of my college semester, I realized that I had done a lot of projects, but it was all scattered across many GitHub repos and random files on my computer. At the same time, my friend kept talking about him making a Portfolio website and how I need to do the same. At the time, I didn't think about it, but that summer break, I had a lot of free time on my hands and decided to make this website. 
 
 # Idea and Goals
-The main goal of this website was to have a easy to use website that I can easily create a new `.mdx` file and write about anything I wanted without having to add new code or anything. Simply just create a `.mdx` and write. I also wanted to fully code this website myself and not rely on templates like [Nextra](https://nextra.site/) or drag and drop components like [shadcn](https://ui.shadcn.com/). Previously when making website, I used these as a way to mainly focus on the main goal of the website. This project though, I wanted to fully code it myself.
+The main goal of this website was to have an easy-to-use website that I can easily create a new `.mdx` file and write about anything I wanted without having to add new code or anything. Simply just create a `.mdx` and write. I also wanted to fully code this website myself and not rely on templates like [Nextra](https://nextra.site/) or drag and drop components like [shadcn](https://ui.shadcn.com/). Previously, when making a website, I used these as a way to mainly focus on the main goal of the website. This project, though, I wanted to fully code it myself.
 
 <br/>
 
 # Development
-For this project, I decided on Next.js as that is what I usually use. The first step was making the layout. I wanted to make a simple design that was easy to see all my projects and easy to navigate. Creating the main home page was easy. I made a div with `w-1/3` and centered it. I created the name, description, and started work on the component that shows the mdx. 
+For this project, I decided on Next.js as that is what I usually use. The first step was making the layout. I wanted to make a simple design that was easy to see all my projects and easy to navigate. Creating the main home page was easy. I made a div with `w-1/3` and centered it. I created the name, description, and started work on the component that shows the MDX. 
 
 <br/>
 
-Essentially, each of my mdx files have a metadata section, or frontmatter. All the frontmatter for each mdx is gathered by gray-matter which is a package that gets the frontmatter of a mdx. This is all put into in object. This object is mapped over and repeated for each post. I create each post component with the data from the frontmatter.
+Essentially, each of my MDX files has a metadata section, or frontmatter. All the frontmatter for each MDX is gathered by gray-matter, which is a package that gets the frontmatter of an MDX. This is all put into an object. This object is mapped over and repeated for each post. I create each post component with the data from the frontmatter.
 
 ```jsx
 ---
@@ -34,9 +34,9 @@ title: "Portfolio"
 description: "A website to showcase all my projects."
 date: "2025-08-01"
 tags: {
-  'JavaScript': true,
-  'Next.js': true,
-  'TailwindCSS': true,
+ 'JavaScript': true,
+ 'Next.js': true,
+ 'TailwindCSS': true,
 }
 image: "/images/test2.png"
 ---
@@ -45,13 +45,13 @@ image: "/images/test2.png"
 
 # Post Page
 
-Now to make the post actually link to the mdx and have the mdx as a website. First I created a slug, or a [dynamic route](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes) with Next.js. This is the page that you see when clicking into each post. You can think of it like a template for each page. Depending on what the project is, there can also be a github button depending on if my project is open source. The view button also can be optional as well. This can be changed by adding a `github = true` or `view = true` in the frontmatter. 
+Now, to make the post link to the MDX and have the MDX as a website. First, I created a slug, or a [dynamic route](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes) with Next.js. This is the page that you see when clicking into each post. You can think of it like a template for each page. Depending on what the project is, there can also be a GitHub button, depending on whether my project is open source. The view button can also be optional. This can be changed by adding a `github = true` or `view = true` in the frontmatter. 
 
 <Image src="/images/portfolio/testpage.png" width={1000} height={1000} alt="" description="A default page made by a mostly empty mdx"/>
 
 
 # Tags
-Each post can have certain tags that represent what the project was about/what the project was using. I did this by having the tags in the frontmatter. The tags section in the post object is also an object. This object contains all the tags that the post has. This is than matched with a tags dictionary which contains a bunch of key:value pairs. The key is the name of the tag and the value is the color of the tag. This way, each tag has a different color set by me. 
+Each post can have certain tags that represent what the project was about/what the project was using. I did this by having the tags in the frontmatter. The tags section in the post object is also an object. This object contains all the tags that the post has. This is then matched with a tags dictionary, which contains a bunch of key:value pairs. The key is the name of the tag, and the value is the color of the tag. This way, each tag has a different color set by me. 
 <br/>
-This makes a easy way to figure out what a project is about by just looking at it. 
+This makes an easy way to figure out what a project is about by just looking at it. 
 
