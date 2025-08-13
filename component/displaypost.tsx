@@ -15,7 +15,9 @@ export default function DisplayPost({
   post,
 }: {
   post: Post[],
-}) {
+})
+{
+
   return(
     <div>
       {post.map((postItem: Post) => {
@@ -37,9 +39,8 @@ export default function DisplayPost({
                   </Link>
                 </div>
 
-                {/* Title, Tags, Date */}
+                {/* Tags */}
                 <div className="w-full sm:w-6/8 sm:order-1">
-
                   <div className="flex flex-col sm:flex-row">
                     {/* Tags */}
                     <div className="order-1 sm:order-2 w-full sm:w-3/4 flex flex-wrap mb-2 sm:mb-0">

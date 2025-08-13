@@ -4,6 +4,7 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
 import Link from 'next/link';
 import rehypePrism from 'rehype-prism-plus';
+import { notFound } from 'next/navigation'
 
 import Breadcrumb from '@/component/breadcrumb';
 import ViewButton from '@/component/viewButton';
@@ -65,11 +66,17 @@ const componentsData = {
     ),
 };
 
+
+
 export default async function EntryPage({ params }) {
   const { slug } = await params;
-  const source = fs.readFileSync(path.join(process.cwd(), 'content', `${slug}.mdx`), 'utf8');
+  const filePath = path.join(process.cwd(), 'content', `${slug}.mdx`)
 
-
+  if(!fs.existsSync(filePath)){
+    notFound()
+  }
+  const source = fs.readFileSync(filePath, 'utf8');
+  
   const data = await compileMDX({
     source: source,
     options: {
@@ -82,8 +89,6 @@ export default async function EntryPage({ params }) {
   })
 
   const frontmatter = data.frontmatter
-
-
 
   return (
     <div className="w-95/100 sm:w-[856px] mx-auto ">
