@@ -1,8 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-
-import {FiSun, FiMoon} from 'react-icons/fi';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
 

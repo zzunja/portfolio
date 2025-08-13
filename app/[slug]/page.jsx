@@ -23,10 +23,10 @@ export async function generateStaticParams() {
 
 const componentsData = {
   h1: (props) => {return(
-    <>
+    <div>
       <br/>
       <h1 className="text-4xl font-bold mt-2 mb-2" {...props} />
-    </>
+    </div>
   )},
   a: (props) => <a className="text-blue-400 underline hover:text-blue-600" target="_blank"  {...props} />,
   Image: (props) => {
