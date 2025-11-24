@@ -9,6 +9,7 @@ interface Post {
   date: string;
   tags: Record<string, any>;
   image: string;
+  order: number;
 }
 
 export default function DisplayPost({
@@ -20,7 +21,10 @@ export default function DisplayPost({
 
   return(
     <div>
-      {post.map((postItem: Post) => {
+      {post
+      .slice()
+      .sort((a,b) => a.order - b.order)
+      .map((postItem: Post) => {
         const { slug, title, description, date, tags, image } = postItem;
         return (
           <div key={slug} className="outline-4 outline-gray-500 rounded w-full sm:h-45 mb-8">

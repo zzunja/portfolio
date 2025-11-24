@@ -24,7 +24,8 @@ export default function Home() {
       description: frontmatter.description,
       date: frontmatter.date,
       tags: frontmatter.tags,
-      image: frontmatter.image
+      image: frontmatter.image,
+      order: frontmatter.order,
     }
   })
 

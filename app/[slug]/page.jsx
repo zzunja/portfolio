@@ -115,20 +115,20 @@ export default async function EntryPage({ params }) {
               <ViewButton href={frontmatter.view} />
             </div>
             <div className="hidden sm:mt-2 sm:flex sm:justify-center">
-              <ThemeSwitch />
+              { frontmatter.github && (
+                  <SocialMediaButton href={frontmatter.githubLink} media="github"/>
+                )
+            }
             </div>
-            
-            
-          </div>
-
-          <div className="hidden sm:block">
-            
           </div>
 
         </div>
 
         <div className="flex justify-center block sm:hidden mt-4">
-          <ThemeSwitch />
+          { frontmatter.github && (
+            <SocialMediaButton href={frontmatter.githubLink} media="github"/>
+          )
+          }
         </div>
 
         <div className="flex flex-wrap justify-center mt-2">
@@ -148,12 +148,7 @@ export default async function EntryPage({ params }) {
           alt=""
           className="w-full h-auto rounded-2xl mt-2"
         />
-        { frontmatter.github && (
-          <div className="flex justify-center mt-5">
-            <SocialMediaButton href={frontmatter.githubLink} media="github"/>
-          </div>
-          )
-        }
+        
 
         <article className="text-lg">
           {data.content}
