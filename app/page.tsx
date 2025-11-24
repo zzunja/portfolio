@@ -60,7 +60,7 @@ export default function Home() {
 
       </div>
 
-      <p className="mt-4 mb-6">Hi, I'm Mason McCombs, an undergrad Cyber Security student currently attending UTSA. I have a strong interest in Maleware Development and Reverse Engineering. I also enjoy making website from time to time. Here are a list of projects that I have done.</p>
+      <p className="mt-4 mb-6">Hi, I'm Mason McCombs, an undergrad Cyber Security student currently attending UTSA. I have a strong interest in Malware Development and Reverse Engineering. I also enjoy making websites from time to time. Here are a list of projects that I have done.</p>
 
       <DisplayPost
         post={post}
