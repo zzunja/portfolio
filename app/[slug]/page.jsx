@@ -8,7 +8,6 @@ import { notFound } from 'next/navigation'
 
 import Breadcrumb from '@/component/breadcrumb';
 import ViewButton from '@/component/viewButton';
-import ThemeSwitch from '@/component/themeswitch';
 import { tagColors } from '../tags';
 import SocialMediaButton from '@/component/socialMedia';
 import ZoomableImage from '@/component/zoomimage';
@@ -112,7 +111,10 @@ export default async function EntryPage({ params }) {
           
           <div className="ml-auto mt-10">
             <div>
-              <ViewButton href={frontmatter.view} />
+              { frontmatter.showView == true && (
+                  <ViewButton href={frontmatter.view} />
+                )
+            }
             </div>
             <div className="hidden sm:mt-2 sm:flex sm:justify-center">
               { frontmatter.github && (
